@@ -1,0 +1,50 @@
+# ---------------------------------------
+# BNF grammar for NuSMV input files
+# ---------------------------------------
+
+# Definition of the top-level document structure
+
+<document>      := VAR <varsection> INIT <initsection>; # TRANS <transsection>;
+#<document>      := INIT <initsection>; # TRANS <transsection>;
+
+# Definitions of the VAR section
+
+#<varsection> := dummy;
+<varsection>    := <varname> : <vartype> . <varsection> | ε;
+<vartype>       := <type_boolean> | <type_intrange> | <type_set>;
+<type_boolean>  := boolean;
+<type_intrange> := [ <int> .. <int> ];
+<type_set>      := { <elem_list> };
+<elem_list>     := <elem_name> | <elem_name> , <elem_list>;
+<varname>       := <label> ;
+<elem_name>     := <label>;
+
+# Definitions of the INIT section
+
+<initsection>   := <φ>;
+
+# Definitions of the TRANS section
+
+<transsection>  := <φ>;
+
+# Other definitions
+
+<int>         := ^[0-9]+;
+<label>       := ^[a-z]+;
+
+# Boolean expressions
+
+<φ>            := # Boolean connectives
+                  ( <φ> ) & ( <φ> ) | # ( <φ> ) v ( <φ> ) | ( <φ> ) -> ( <φ> ) | ! ( <φ> ) |
+                  # Atoms
+                  <atom>;
+
+<atom>         := <bool_term> = <bool_term> | 
+                  <bool_term> gt <bool_term> | 
+                  <bool_term> lt <bool_term>;
+
+<bool_term>    := <var> | <next_exp>;
+
+<var>          := ^[\w\d]+;
+
+<next_exp>     := next( <var> );
