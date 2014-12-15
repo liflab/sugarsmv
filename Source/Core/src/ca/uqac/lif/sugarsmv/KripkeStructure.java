@@ -17,7 +17,9 @@
  */
 package ca.uqac.lif.sugarsmv;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class KripkeStructure
 {
@@ -35,5 +37,41 @@ public class KripkeStructure
    * The Boolean expression representing the transition relation
    */
   protected Connective m_transitionExpression;
+  
+  /**
+   * Empty constructor
+   */
+  public KripkeStructure()
+  {
+    super();
+    m_variables = new HashMap<String,StateVariable>();
+    m_initialExpression = null;
+    m_transitionExpression = null;
+  }
+  
+  /**
+   * Adds a variable declaration to the structure
+   * @param v The variable to add
+   */
+  public void addVariable(StateVariable v)
+  {
+    if (v == null)
+      return;
+    m_variables.put(v.getName(), v);
+  }
+  
+  @Override
+  public String toString()
+  {
+    StringBuilder out = new StringBuilder();
+    out.append("Variable declarations\n");
+    Set<String> var_names = m_variables.keySet();
+    for (String name : var_names)
+    {
+      StateVariable v = m_variables.get(name);
+      out.append(name).append(" ∈ ").append(v.getDomain()).append("\n");
+    }
+    return out.toString();
+  }
   
 }

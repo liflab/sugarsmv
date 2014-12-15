@@ -33,7 +33,11 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 
+import ca.uqac.lif.bullwinkle.ParseNode;
+import ca.uqac.lif.sugarsmv.KripkeFileBuilder;
 import ca.uqac.lif.sugarsmv.KripkeParser.ParseException;
+import ca.uqac.lif.sugarsmv.KripkeStructure;
+import ca.uqac.lif.sugarsmv.NusmvKripkeBuilder;
 import ca.uqac.lif.sugarsmv.NusmvKripkeParser;
 
 /**
@@ -107,10 +111,12 @@ public class MainCli
       System.exit(ERR_IO);
     }
     
+    // Parse the input file
     NusmvKripkeParser nkp = new NusmvKripkeParser();
+    KripkeStructure kripke = null;
     try
     {
-      nkp.parse(new BufferedReader(new InputStreamReader(new FileInputStream(new File(in_filename)))));
+      kripke = nkp.parse(new BufferedReader(new InputStreamReader(new FileInputStream(new File(in_filename)))));
     }
     catch (FileNotFoundException e)
     {
@@ -128,6 +134,8 @@ public class MainCli
       e.printStackTrace();
       System.exit(ERR_PARSE);
     }
+    System.out.println(kripke);
+
     System.exit(ERR_OK);
   }
   

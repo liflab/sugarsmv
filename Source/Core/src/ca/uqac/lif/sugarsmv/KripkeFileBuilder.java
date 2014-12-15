@@ -17,40 +17,20 @@
  */
 package ca.uqac.lif.sugarsmv;
 
+import ca.uqac.lif.bullwinkle.ParseNode;
+
 /**
- * A state variable is a scalar quantity that represents part
- * of a system's state.
+ * Visits a parse tree for an input file and builds a Kripke
+ * structure out of its contents
  * @author sylvain
- *
  */
-public abstract class StateVariable extends VariableOrConstant
+public abstract class KripkeFileBuilder
 {
   /**
-   * The variable's name
+   * Returns the Kripke structure built from the parsed file
+   * @param root The parse tree resulting from the parsing of the
+   *   input file
+   * @return The Kripke structure, or null
    */
-  protected String m_name;
-  
-  /**
-   * Sets the name of the variable
-   * @param name The name
-   */
-  public void setName(String name)
-  {
-    m_name = name;
-  }
-  
-  /**
-   * Retrieves the variable's domain
-   * @return The domain
-   */
-  public abstract Domain getDomain();
-  
-  /**
-   * Retrieves the name of the variable
-   * @return The name
-   */
-  public String getName()
-  {
-    return m_name;
-  }
+  public abstract KripkeStructure getKripkeStructure(ParseNode root);
 }

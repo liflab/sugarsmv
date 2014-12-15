@@ -25,7 +25,6 @@ import ca.uqac.lif.bullwinkle.BnfParser;
 import ca.uqac.lif.bullwinkle.BnfParser.InvalidGrammarException;
 import ca.uqac.lif.bullwinkle.ParseNode;
 import ca.uqac.lif.bullwinkle.output.GraphvizVisitor;
-import ca.uqac.lif.util.FileReadWrite;
 
 /**
  * Parser for classical input files for the
@@ -48,23 +47,27 @@ public class NusmvKripkeParser extends KripkeParser
   {
     KripkeStructure kripke = new KripkeStructure();
     String doc_contents = sanitizeInput(reader);
+    ParseNode parse_tree = null;
     try
     {
-      ParseNode parse_tree = s_parser.parse(doc_contents);
+      parse_tree = s_parser.parse(doc_contents);
       if (parse_tree == null)
       {
         // Something bad happened when parsing
         throw new ParseException("Parse tree is null");
       }
-      GraphvizVisitor visitor = new GraphvizVisitor();
-      parse_tree.prefixAccept(visitor);
-      System.out.println(visitor.toOutputString());
-      
     }
     catch (ca.uqac.lif.bullwinkle.BnfParser.ParseException e)
     {
       throw new ParseException(e.toString());
     }
+    // Create a Kripke structure out of the parse tree
+    assert parse_tree != null;
+    KripkeFileBuilder kfb = new NusmvKripkeBuilder();
+    kripke = kfb.getKripkeStructure(parse_tree);
+    /*GraphvizVisitor visitor = new GraphvizVisitor();
+    parse_tree.prefixAccept(visitor);
+    System.out.println(visitor.toOutputString());*/
     return kripke;
   }
   

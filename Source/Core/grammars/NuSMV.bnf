@@ -8,7 +8,7 @@
 
 # Definitions of the VAR section
 
-<varsection>    := <varname> : <vartype> . <varsection> | ε;
+<varsection>    := <varname> : <vartype> \u003b <varsection> | ε;
 <vartype>       := <type_boolean> | <type_intrange> | <type_set>;
 <type_boolean>  := boolean;
 <type_intrange> := [ <int> .. <int> ];
@@ -33,7 +33,7 @@
 # Boolean expressions
 
 <φ>            := # Boolean connectives
-                  ( <φ> ) & ( <φ> ) | ( <φ> ) v ( <φ> ) | ( <φ> ) -> ( <φ> ) | ! ( <φ> ) |
+                  ( <φ> ) & ( <φ> ) | ( <φ> ) \u007c ( <φ> ) | ( <φ> ) -\u003e ( <φ> ) | ! ( <φ> ) |
                   # Atoms
                   <atom>;
 

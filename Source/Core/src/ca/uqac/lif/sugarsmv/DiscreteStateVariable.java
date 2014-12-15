@@ -67,6 +67,24 @@ public class DiscreteStateVariable extends StateVariable
   }
   
   /**
+   * Sets the variable's domain
+   * @param d The domain
+   */
+  public void setDomain(Domain d)
+  {
+    m_domain = d;
+  }
+  
+  /**
+   * Retrieves the variable's domain
+   * @return
+   */
+  public Domain getDomain()
+  {
+    return m_domain;
+  }
+  
+  /**
    * Sets the value of the variable
    * @param value The value
    */

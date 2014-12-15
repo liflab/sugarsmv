@@ -25,6 +25,15 @@ package ca.uqac.lif.sugarsmv;
 public abstract class BooleanConstant extends Constant
 {
   /**
+   * Private constructor
+   * @param value
+   */
+  private BooleanConstant(boolean value)
+  {
+    super(valueToString(value));
+  }
+  
+  /**
    * Returns an instance of the constant false
    * @return An instance of the constant false
    */
@@ -50,7 +59,7 @@ public abstract class BooleanConstant extends Constant
   {
     public BooleanConstantFalse()
     {
-      super();
+      super(false);
     }
     
     @Override
@@ -89,7 +98,7 @@ public abstract class BooleanConstant extends Constant
   {
     public BooleanConstantTrue()
     {
-      super();
+      super(true);
     }
     
     @Override
@@ -118,5 +127,12 @@ public abstract class BooleanConstant extends Constant
     {
       return true;
     }
+  }
+  
+  protected static String valueToString(boolean b)
+  {
+    if (b)
+      return "⊤";
+    return "⊥";
   }
 }

@@ -23,19 +23,6 @@ package ca.uqac.lif.sugarsmv;
  */
 public class DiscreteConstant extends Constant
 {
-  /**
-   * The value represented by the constant
-   */
-  protected String m_value;
-  
-  /**
-   * Empty constructor
-   */
-  public DiscreteConstant()
-  {
-    super();
-    m_value = "";
-  }
   
   /**
    * Constructor with value
@@ -43,8 +30,7 @@ public class DiscreteConstant extends Constant
    */
   public DiscreteConstant(String value)
   {
-    assert value != null;
-    m_value = value;
+    super(value);
   }
   
   @Override
@@ -68,5 +54,11 @@ public class DiscreteConstant extends Constant
     if (c == null || c.m_value == null)
       return false;
     return m_value.compareTo(c.m_value) == 0;
+  }
+  
+  @Override
+  public String toString()
+  {
+    return m_value;
   }
 }

@@ -20,9 +20,21 @@ package ca.uqac.lif.sugarsmv;
 /**
  * Generic representation of any value that a variable can take
  * @author sylvain
- *
  */
 public abstract class Constant extends VariableOrConstant
 {
+  /**
+   * The constant's value
+   */
+  protected final String m_value;
 
+  /**
+   * Constructor with value
+   * @param value The value to give the constant
+   */
+  public Constant(String value)
+  {
+    super();
+    m_value = value;
+  }
 }
