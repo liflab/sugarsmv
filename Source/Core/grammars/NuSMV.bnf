@@ -4,12 +4,10 @@
 
 # Definition of the top-level document structure
 
-<document>      := VAR <varsection> INIT <initsection>; # TRANS <transsection>;
-#<document>      := INIT <initsection>; # TRANS <transsection>;
+<document>      := VAR <varsection> INIT <initsection> TRANS <transsection>;
 
 # Definitions of the VAR section
 
-#<varsection> := dummy;
 <varsection>    := <varname> : <vartype> . <varsection> | ε;
 <vartype>       := <type_boolean> | <type_intrange> | <type_set>;
 <type_boolean>  := boolean;
@@ -35,7 +33,7 @@
 # Boolean expressions
 
 <φ>            := # Boolean connectives
-                  ( <φ> ) & ( <φ> ) | # ( <φ> ) v ( <φ> ) | ( <φ> ) -> ( <φ> ) | ! ( <φ> ) |
+                  ( <φ> ) & ( <φ> ) | ( <φ> ) v ( <φ> ) | ( <φ> ) -> ( <φ> ) | ! ( <φ> ) |
                   # Atoms
                   <atom>;
 
@@ -43,7 +41,7 @@
                   <bool_term> gt <bool_term> | 
                   <bool_term> lt <bool_term>;
 
-<bool_term>    := <var> | <next_exp>;
+<bool_term>    := <next_exp> | <var> ;
 
 <var>          := ^[\w\d]+;
 

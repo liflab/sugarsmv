@@ -72,7 +72,6 @@ public class NusmvKripkeParser extends KripkeParser
    * Creates the BNF grammar that the Bullwinkle parser uses
    * to read files. 
    * @return An instance of a Bullwinkle {@link BnfParser}
-   * @throws IOException 
    */
   protected static BnfParser createParser()
   {
@@ -80,17 +79,11 @@ public class NusmvKripkeParser extends KripkeParser
     try
     {
       parser = new BnfParser(new File("grammars/NuSMV.bnf"));
-      String contents = FileReadWrite.readFile("grammars/NuSMV.bnf");
-      parser.parse(contents);
+      parser.setDebugMode(false);
     }
     catch (IOException e)
     {
       // Not supposed to happen!
-      e.printStackTrace();
-    }
-    catch (ca.uqac.lif.bullwinkle.BnfParser.ParseException e)
-    {
-      // Not supposed to happen either!
       e.printStackTrace();
     }
     catch (InvalidGrammarException e)
