@@ -1,9 +1,13 @@
 -- This is a NuSMV file
 -- with comments
 
-VAR
-a : boolean.
-b : [0..2].
+--VAR
+--a : boolean;
+--b : [0..2];
 
 INIT
-(a = 0) & (b = 1)
+a = 0 & (c = 0) & b = 0 TRANS
+--next(a) = b & b = 0 
+--
+--TRANS
+--next(a) = b & b = 0

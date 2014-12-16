@@ -4,7 +4,8 @@
 
 # Definition of the top-level document structure
 
-<document>      := VAR <varsection> INIT <initsection> TRANS <transsection>;
+#<document>      := VAR <varsection> INIT <initsection> TRANS <transsection>;
+<document> := INIT <initsection> TRANS;
 
 # Definitions of the VAR section
 
@@ -27,22 +28,35 @@
 
 # Other definitions
 
-<int>         := ^[0-9]+;
-<label>       := ^[a-z]+;
+<int>           := ^[0-9]+;
+<label>         := ^[a-z]+;
 
 # Boolean expressions
+# This part of the grammar is a bit more complex than it (sh)could be,
+# as NuSMV allows a relaxed syntax. For example, it is possible to write
+# p & q & r, although & is a binary connective and parentheses are
+# in theory needed.
 
-<φ>            := # Boolean connectives
-                  ( <φ> ) & ( <φ> ) | ( <φ> ) \u007c ( <φ> ) | ( <φ> ) -\u003e ( <φ> ) | ! ( <φ> ) |
-                  # Atoms
-                  <atom>;
+<φ>             := <and> | <or> | <atom> | ( <φ> );
+                   #| <negation> | <implies>;
 
-<atom>         := <bool_term> = <bool_term> | 
-                  <bool_term> gt <bool_term> | 
-                  <bool_term> lt <bool_term>;
+<and>           := <atom> & <and> | ( <φ> ) & <and> | 
+                   <atom> & ( <φ> ) | <atom> & <atom> ;
 
-<bool_term>    := <next_exp> | <var> ;
+<or>            := <atom> \u007c <or> | ( <φ> ) \u007c <or> |
+                   <atom> \u007c ( <φ> ) | <atom> \u007c <atom> ;
 
-<var>          := ^[\w\d]+;
+<negation>      := ! <atom> | ! ( <φ> );
 
-<next_exp>     := next( <var> );
+<implies>       := <atom> -\u003e <atom> | <atom> -\u003e ( <φ> ) |
+                   ( <φ> ) -\u003e <atom> | ( <φ> ) -\u003e ( <φ> );
+
+<atom>          := <bool_term> = <bool_term> | 
+                   <bool_term> gt <bool_term> | 
+                   <bool_term> lt <bool_term>;
+
+<bool_term>     := <next_exp> | <var> ;
+
+<var>           := ^[\w\d]+;
+
+<next_exp>      := next( <var> );

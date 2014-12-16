@@ -81,7 +81,7 @@ public class NusmvKripkeParser extends KripkeParser
     try
     {
       parser = new BnfParser(new File("grammars/NuSMV.bnf"));
-      parser.setDebugMode(false);
+      parser.setDebugMode(true);
     }
     catch (IOException e)
     {
