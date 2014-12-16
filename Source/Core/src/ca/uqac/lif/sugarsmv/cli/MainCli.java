@@ -33,11 +33,8 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 
-import ca.uqac.lif.bullwinkle.ParseNode;
-import ca.uqac.lif.sugarsmv.KripkeFileBuilder;
 import ca.uqac.lif.sugarsmv.KripkeParser.ParseException;
 import ca.uqac.lif.sugarsmv.KripkeStructure;
-import ca.uqac.lif.sugarsmv.NusmvKripkeBuilder;
 import ca.uqac.lif.sugarsmv.NusmvKripkeParser;
 
 /**

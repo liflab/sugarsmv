@@ -60,6 +60,26 @@ public class KripkeStructure
     m_variables.put(v.getName(), v);
   }
   
+  /**
+   * Sets the initial expression of the Kripke structure
+   * @param c A propositional formula representing the condition
+   *   for initial states
+   */
+  public void setInitialExpression(Connective c)
+  {
+    m_initialExpression = c;
+  }
+  
+  /**
+   * Sets the transition expression of the Kripke structure
+   * @param c A propositional formula representing the condition
+   *   for the transition relation
+   */
+  public void setTransitionExpression(Connective c)
+  {
+    m_transitionExpression = c;
+  }
+  
   @Override
   public String toString()
   {

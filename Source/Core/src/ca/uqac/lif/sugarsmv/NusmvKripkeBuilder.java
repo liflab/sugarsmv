@@ -83,6 +83,26 @@ public class NusmvKripkeBuilder extends KripkeFileBuilder
     }
   }
   
+  protected void processInitSection(ParseNode n, KripkeStructure kripke)
+  {
+    Connective phi = parseFormulaFromTree(n);
+    if (phi != null)
+      kripke.setInitialExpression(phi);
+  }
+  
+  protected void processTransitionSection(ParseNode n, KripkeStructure kripke)
+  {
+    Connective phi = parseFormulaFromTree(n);
+    if (phi != null)
+      kripke.setTransitionExpression(phi);
+  }
+  
+  protected static Connective parseFormulaFromTree(ParseNode n)
+  {
+    // TODO
+    return null;
+  }
+  
   /**
    * Convenience method to create a range from strings instead of
    * integers

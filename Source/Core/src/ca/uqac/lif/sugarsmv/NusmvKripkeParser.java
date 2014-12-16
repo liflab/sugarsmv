@@ -24,7 +24,6 @@ import java.io.IOException;
 import ca.uqac.lif.bullwinkle.BnfParser;
 import ca.uqac.lif.bullwinkle.BnfParser.InvalidGrammarException;
 import ca.uqac.lif.bullwinkle.ParseNode;
-import ca.uqac.lif.bullwinkle.output.GraphvizVisitor;
 
 /**
  * Parser for classical input files for the
