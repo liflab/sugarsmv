@@ -1,6 +1,6 @@
 /*
     Syntactical sugar for NuSMV
-    Copyright (C) 2014-2015 Sylvain Hallé
+    Copyright (C) 2014-2017 Sylvain Hallé
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,13 +25,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
+import ca.uqac.lif.util.CliParser;
+import ca.uqac.lif.util.CliParser.Argument;
+import ca.uqac.lif.util.CliParser.ArgumentMap;
 
 import ca.uqac.lif.sugarsmv.KripkeParser.ParseException;
 import ca.uqac.lif.sugarsmv.KripkeStructure;
@@ -55,7 +51,7 @@ public class MainCli
   /**
    * Build string to identify versions
    */
-  protected static final String VERSION_STRING = "0.0";
+  protected static final String VERSION_STRING = "0.1-alpha";
   
   /**
    * @param args
@@ -66,32 +62,38 @@ public class MainCli
     String in_filename = null;
     
     // Parse command line arguments
-    Options options = setupOptions();
-    CommandLine c_line = setupCommandLine(args, options);
-    assert c_line != null;
-    if (c_line.hasOption("verbosity"))
+    CliParser c_line = new CliParser();
+    setupOptions(c_line);
+    ArgumentMap arguments = c_line.parse(args);
+    if (arguments == null)
     {
-      verbosity = Integer.parseInt(c_line.getOptionValue("verbosity"));
+    	// Incorrect arguments
+    	c_line.printHelp("java -jar sugarsmv.jar", System.err);
+        System.exit(ERR_ARGUMENTS);
+    }
+    if (arguments.hasOption("verbosity"))
+    {
+      verbosity = Integer.parseInt(arguments.getOptionValue("verbosity"));
     }
     if (verbosity > 0)
     {
       showHeader(System.err);
     }
-    if (c_line.hasOption("i"))
+    if (arguments.hasOption("i"))
     {
-      in_filename = c_line.getOptionValue("i");
+      in_filename = arguments.getOptionValue("i");
     }
-    if (c_line.hasOption("version"))
+    if (arguments.hasOption("version"))
     {
-      System.err.println("(C) 2014-2015 Sylvain Hallé et al., Université du Québec à Chicoutimi");
+      System.err.println("(C) 2014-2017 Sylvain Hallé et al., Université du Québec à Chicoutimi");
       System.err.println("This program comes with ABSOLUTELY NO WARRANTY.");
       System.err.println("This is a free software, and you are welcome to redistribute it");
       System.err.println("under certain conditions. See the file COPYING for details.\n");
       System.exit(ERR_OK);
     }
-    if (c_line.hasOption("h"))
+    if (arguments.hasOption("h"))
     {
-      showUsage(options);
+      c_line.printHelp("java -jar sugarsmv.jar", System.err);
       System.exit(ERR_OK);
     }
     
@@ -143,69 +145,16 @@ public class MainCli
   private static void showHeader(PrintStream ps)
   {
     ps.println("SugarSMV " + VERSION_STRING + ", syntactical sugar for NuSMV");
-    ps.println("(C) 2014 Sylvain Hallé, Université du Québec à Chicoutimi\n");
-  }
-  
-  /**
-   * Show the program's usage
-   * @param options The options created for the command line parser
-   */
-  private static void showUsage(Options options)
-  {
-    HelpFormatter hf = new HelpFormatter();
-    hf.printHelp("java -jar SugarSMV.jar", options);
-  }
-
-  /**
-   * Sets up the command line parser
-   * @param args The command line arguments passed to the class' {@link main}
-   * method
-   * @param options The command line options to be used by the parser
-   * @return The object that parsed the command line parameters
-   */
-  private static CommandLine setupCommandLine(String[] args, Options options)
-  {
-    CommandLineParser parser = new PosixParser();
-    CommandLine c_line = null;
-    try
-    {
-      // parse the command line arguments
-      c_line = parser.parse(options, args);
-    }
-    catch (org.apache.commons.cli.ParseException exp)
-    {
-      // oops, something went wrong
-      System.err.println("ERROR: " + exp.getMessage() + "\n");
-      //HelpFormatter hf = new HelpFormatter();
-      //hf.printHelp(t_gen.getAppName() + " [options]", options);
-      System.exit(ERR_ARGUMENTS);
-    }
-    return c_line;
+    ps.println("(C) 2014-2017 Sylvain Hallé, Université du Québec à Chicoutimi\n");
   }
   
   /**
    * Sets up the options for the command line parser
    * @return The options
    */
-  @SuppressWarnings("static-access")
-  private static Options setupOptions()
+  private static void setupOptions(CliParser parser)
   {
-    Options options = new Options();
-    Option opt;
-    opt = OptionBuilder
-        .withLongOpt("help")
-        .withDescription(
-            "Display command line usage")
-            .create("h");
-    options.addOption(opt);
-    opt = OptionBuilder
-        .withLongOpt("input-file")
-        .withArgName("filename")
-        .hasArg()
-        .withDescription(
-            "Read model from filename")
-            .create("i");
-    options.addOption(opt);
-    return options;
+    parser.addArgument(new Argument().withLongName("help").withDescription("Display command line usage").withShortName("h"));
+    parser.addArgument(new Argument().withLongName("input-file").withShortName("i").withDescription("Read model from filename").withArgument("filename"));
   }
 }

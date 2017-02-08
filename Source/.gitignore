@@ -10,6 +10,7 @@
 
 # Don't include libraries
 **/lib
+**/dep
 
 # Eclipse specific git ignore
 *.pydevproject
